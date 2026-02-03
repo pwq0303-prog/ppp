@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>これって重すぎない?バレンタインプレゼント診断</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+    body {
+        font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+        background: linear-gradient(135deg, #fff5f7 0%, #ffe0e8 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+    
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    
+    .header {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        padding: 40px 30px;
+        text-align: center;
+        color: #fff;
+    }
+    
+    .header h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+    
+    .header .icon {
+        font-size: 50px;
+        margin-bottom: 15px;
+    }
+    
+    .content {
+        padding: 30px;
+    }
+    
+    .start-screen {
+        text-align: center;
+    }
+    
+    .start-screen p {
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+    
+    .start-screen .features {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 30px 0;
+        text-align: left;
+    }
+    
+    .start-screen .features div {
+        margin: 10px 0;
+        color: #333;
+    }
+    
+    .btn {
+        background: linear-gradient(135deg, #ff6b9d 0%, #c96dd8 100%);
+        color: white;
+        border: none;
+        padding: 18px 40px;
+        font-size: 18px;
+        border-radius: 50px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        font-weight: bold;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(255, 107, 157, 0.3);
+    }
+    
+    .question-screen {
+        display: none;
+    }
+    
+    .progress-bar {
+        background: #e0e0e0;
+        height: 8px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+    
+    .progress-fill {
+        background: linear-gradient(90deg, #ff6b9d 0%, #c96dd8 100%);
+        height: 100%;
+        transition: width 0.3s;
+        border-radius: 10px;
+    }
+    
+    .progress-text {
+        text-align: center;
+        color: #999;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    
+    .question {
+        margin-bottom: 30px;
+    }
+    
+    .question h2 {
+        color: #333;
+        font-size: 20px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+    
+    .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .option {
+        background: #f8f9fa;
+        border: 2px solid transparent;
+        padding: 18px 20px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: left;
+    }
+    
+    .option:hover {
+        background: #fff0f5;
+        border-color: #ff9a9e;
+    }
+    
+    .option.selected {
+        background: #fff0f5;
+        border-color: #ff6b9d;
+    }
+    
+    .result-screen {
+        display: none;
+    }
+    
+    .result-header {
+        text-align: center;
+        padding: 30px 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+    
+    .result-a { background: linear-gradient(135deg, #a8e6cf 0%, #dcedc8 100%); }
+    .result-b { background: linear-gradient(135deg, #ffd54f 0%, #ffecb3 100%); }
+    .result-c { background: linear-gradient(135deg, #ffb74d 0%, #ffe0b2 100%); }
+    .result-d { background: linear-gradient(135deg, #ef5350 0%, #ffcdd2 100%); }
+    .result-e { background: linear-gradient(135deg, #64b5f6 0%, #bbdefb 100%); }
+    
+    .result-header h2 {
+        font-size: 26px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+    
+    .result-header .stars {
+        font-size: 24px;
+        margin-top: 10px;
+    }
+    
+    .result-content {
+        color: #333;
+        line-height: 1.8;
+    }
+    
+    .result-content h3 {
+        color: #ff6b9d;
+        margin: 25px 0 15px;
+        font-size: 18px;
+    }
+    
+    .result-content ul, .result-content ol {
+        margin: 15px 0;
+        padding-left: 20px;
+    }
+    
+    .result-content li {
+        margin: 8px 0;
+    }
+    
+    .cta-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin-top: 30px;
+        text-align: center;
+    }
+    
+    .cta-box h3 {
+        color: white;
+        margin-bottom: 15px;
+    }
+    
+    .cta-box p {
+        margin: 10px 0;
+        line-height: 1.6;
+    }
+    
+    .cta-btn {
+        background: white;
+        color: #667eea;
+        border: none;
+        padding: 15px 35px;
+        font-size: 16px;
+        border-radius: 50px;
+        cursor: pointer;
+        margin-top: 15px;
+        font-weight: bold;
+        transition: transform 0.2s;
+    }
+    
+    .cta-btn:hover {
+        transform: scale(1.05);
+    }
+    
+    .restart-btn {
+        background: #e0e0e0;
+        color: #666;
+        margin-top: 20px;
+    }
+    
+    .restart-btn:hover {
+        background: #d0d0d0;
+    }
+    
+    @media (max-width: 600px) {
+        .header h1 {
+            font-size: 20px;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="icon">🎁</div>
+            <h1>「これって重すぎない?」<br>バレンタインプレゼント診断</h1>
+        </div>
+
+```
+    <div class="content">
+        <div id="startScreen" class="start-screen">
+            <p>彼に喜ばれるはずが...<br>「重い」って思われたらどうしよう?</p>
+            <p>そんな不安を抱えるあなたへ。</p>
+            
+            <div class="features">
+                <div>✅ 重すぎないか</div>
+                <div>✅ 彼に喜ばれるか</div>
+                <div>✅ 関係を深められるか</div>
+            </div>
+            
+            <p>10の質問で診断します!</p>
+            
+            <button class="btn" onclick="startQuiz()">診断スタート</button>
+        </div>
+        
+        <div id="questionScreen" class="question-screen">
+            <div class="progress-text">Q<span id="currentQ">1</span>/10</div>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill" style="width: 10%"></div>
+            </div>
+            
+            <div class="question">
+                <h2 id="questionText"></h2>
+                <div id="optionsContainer" class="options"></div>
+            </div>
+            
+            <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">次へ</button>
+        </div>
+        
+        <div id="resultScreen" class="result-screen">
+            <div id="resultHeader" class="result-header"></div>
+            <div id="resultContent" class="result-content"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var questions = [
+        {
+            q: "彼との交際期間は?",
+            options: [
+                { text: "付き合って1ヶ月未満", score: 2 },
+                { text: "付き合って1〜3ヶ月", score: 1 },
+                { text: "付き合って3ヶ月〜1年", score: 0 },
+                { text: "付き合って1年以上", score: 0 },
+                { text: "まだ付き合ってない(片思い)", score: 3 }
+            ]
+        },
+        {
+            q: "今考えているプレゼントの予算は?",
+            options: [
+                { text: "1,000円未満", score: -1 },
+                { text: "1,000〜3,000円", score: 0 },
+                { text: "3,000〜5,000円", score: 1 },
+                { text: "5,000〜10,000円", score: 3 },
+                { text: "10,000円以上", score: 5 }
+            ]
+        },
+        {
+            q: "プレゼントと一緒に渡すものは?",
+            options: [
+                { text: "チョコだけ", score: 0 },
+                { text: "チョコ+メッセージカード", score: 0 },
+                { text: "チョコ+手紙(便箋1枚)", score: 1 },
+                { text: "チョコ+手紙(便箋2枚以上)", score: 3 },
+                { text: "チョコ+手紙+アルバムやムービー", score: 5 }
+            ]
+        },
+        {
+            q: "彼の好みをどれくらい把握してる?",
+            options: [
+                { text: "完璧に把握!好きな色・ブランド・サイズ全部知ってる", score: 2 },
+                { text: "だいたい把握してる", score: 0 },
+                { text: "なんとなく知ってる", score: 0 },
+                { text: "あまり知らない...でも頑張って選んだ!", score: 0 },
+                { text: "自分の好きなものを選んだ", score: 3 }
+            ]
+        },
+        {
+            q: "プレゼントを選んだ理由は?",
+            options: [
+                { text: "彼が前に「欲しい」と言ってたから", score: -1 },
+                { text: "彼の趣味・仕事に役立ちそうだから", score: 0 },
+                { text: "長く使えて実用的だから", score: 0 },
+                { text: "私の気持ちを伝えられるから", score: 2 },
+                { text: "見た目が素敵で私が気に入ったから", score: 2 }
+            ]
+        },
+        {
+            q: "プレゼントに込めたメッセージは?",
+            options: [
+                { text: "「いつもありがとう」的な感謝", score: 0 },
+                { text: "「これからもよろしく」的な前向きメッセージ", score: 0 },
+                { text: "「大好き」「愛してる」的な愛情表現", score: 2 },
+                { text: "二人の思い出+これからの願い(長文)", score: 3 },
+                { text: "特にメッセージは考えてない", score: -1 }
+            ]
+        },
+        {
+            q: "渡し方はどうする予定?",
+            options: [
+                { text: "さりげなく手渡し", score: 0 },
+                { text: "デート中にタイミング見て渡す", score: 0 },
+                { text: "特別な演出を準備(レストラン予約など)", score: 2 },
+                { text: "サプライズを計画中!", score: 3 },
+                { text: "まだ決めてない...", score: 0 }
+            ]
+        },
+        {
+            q: "渡した後の期待は?",
+            options: [
+                { text: "喜んでくれたらそれでいい", score: 0 },
+                { text: "「ありがとう」って言ってもらえれば十分", score: 0 },
+                { text: "二人の関係が少し深まればいいな", score: 1 },
+                { text: "告白や関係進展のきっかけにしたい", score: 2 },
+                { text: "彼から同じくらいのお返しが欲しい", score: 3 }
+            ]
+        },
+        {
+            q: "最近の彼とのLINEペースは?",
